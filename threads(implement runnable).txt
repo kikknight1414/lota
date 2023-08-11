@@ -1,0 +1,94 @@
+\\threads(implement runnable)
+
+
+
+class My implements Runnable
+{
+Thread t;
+My()
+{
+t=new Thread(this,"child");
+t.start();
+}
+public void run()
+{
+try
+{
+for(int i=0;i<5;i++)
+{
+System.out.println("child"+i);
+Thread.sleep(500);
+}
+}
+catch(Exception e)
+{
+System.out.println(e);
+}
+}
+}
+class RunDemo
+{
+public static void main(String args[])
+{
+new My();
+try
+{
+for(int i=0;i<5;i++)
+{
+System.out.println("main thread"+i);
+Thread.sleep(1000);
+}
+}
+catch(Exception e)
+{
+System.out.println(e);
+}
+}
+}
+
+
+//////syccc
+
+
+
+class Syn implements Runnable
+{
+Thread t;
+int c=0;
+public void run()
+{
+for(int i=0;i<2000;i++)
+{
+inc();
+}
+}
+synchronized void inc()
+{
+c++;
+}
+int getc()
+{
+return c;
+}
+}
+class Sync
+{
+public static void main(String args[])
+{
+Syn s=new Syn();
+Thread t1=new Thread(s);
+Thread t2=new Thread(s);
+t1.start();
+t2.start();
+try
+{
+t1.join();
+t2.join();
+}
+catch(Exception e)
+{
+System.out.println(e);
+}
+System.out.println("value of counter:"+s.getc());
+}
+}
